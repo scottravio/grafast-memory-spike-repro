@@ -35,3 +35,9 @@ query {
 In the console output, observe the JS heap jump significantly when the query is executed going through our plugin.
 
 On my machine (Macbook Pro M1, 32GB RAM, node v20.11.0) I see a jump from ~50mb straight to ~250mb on query execution.
+
+See:
+
+
+
+https://github.com/cjheppell/grafast-memory-spike-repro/assets/12884767/be6e428b-4f18-4f63-969c-6de6b8f9562c
