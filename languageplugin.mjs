@@ -1,5 +1,5 @@
 import { makeExtendSchemaPlugin, gql } from "postgraphile/utils";
-import { each, applyTransforms, loadOne, object } from "grafast";
+import { each, applyTransforms, loadOne, object, constant, lambda } from "grafast";
 
 export const MyPlugin = makeExtendSchemaPlugin((build) => {
   const { languages } = build.input.pgRegistry.pgResources;
@@ -15,16 +15,13 @@ export const MyPlugin = makeExtendSchemaPlugin((build) => {
       User: {
         totalLanguages() {
           const $allLanguages = languages.find();
+
+          // each step seems to cause memory spike
           const $materializedLanguages = each($allLanguages, (lg) =>
-            object({ language: lg.get("language") })
-          );
-          const $objs = applyTransforms($materializedLanguages);
-
-          const $res = loadOne($objs, (allObjs) =>
-            allObjs.map((x) => allObjs.length)
+            constant(42)
           );
 
-          return $res;
+          return lambda($materializedLanguages, () => 1);
         },
       },
     },
